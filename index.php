@@ -38,8 +38,48 @@
             </form>
         </div>
         <div class="books-container">
-            <div class="book-card">
+            <div class="row">
+                <?php if ($result && $result->num_rows > 0): ?>
+                    <?php while ($book = $result->fetch_assoc()): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <img
+                                    src="assets/uploads/<?php echo htmlspecialchars($book['cover_image']); ?>"
+                                    class="card-img-top"
+                                    alt="Book Cover"
+                                    style="height: 250px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo htmlspecialchars($book['title']); ?></h5>
+                                    <p class="card-text text-muted">By <?php echo htmlspecialchars($book['author']); ?></p>
+                                    <p class="badge bg-info"><?php echo htmlspecialchars($book['genre']); ?></p>
 
+                                    <p class="card-text">
+                                        <strong>Available:</strong> <?php echo $book['available_copies']; ?>
+                                    </p>
+
+                                    <?php if ($book['copies'] > 0): ?>
+                                        <button
+                                            class="btn btn-success w-100"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#reserveModal"
+                                            data-book-id="<?php echo $book['id']; ?>"
+                                            data-book-title="<?php echo htmlspecialchars($book['title']); ?>">
+                                            Reserve Now
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="btn btn-secondary w-100" disabled>Out of Stock</button>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center">
+                            No books found matching "<strong><?php echo htmlspecialchars($searchTearm); ?></strong>".
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </main>

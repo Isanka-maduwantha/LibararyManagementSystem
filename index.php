@@ -39,7 +39,9 @@
         </div>
         <div class="books-container">
             <div class="row">
-                <?php if ($result && $result->num_rows > 0): ?>
+                <?php 
+                    $result = null;
+                if ($result && $result->num_rows > 0): ?>
                     <?php while ($book = $result->fetch_assoc()): ?>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100">

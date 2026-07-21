@@ -1,3 +1,21 @@
+<?php
+require_once 'config/db.php';
+$searchTearm = isset($_GET['search']) ? trim($_GET['search']) : "";
+
+if (!empty($searchTearm)) {
+    $sql = "SELECT * from books where title LIKE ?  OR author LIKE  ? or isbn LIKE ?";
+    $statement = $conn->prepare($sql);
+    $param = "%" . $searchTearm . "%";
+    $statement->bind_param("sss", $param, $param, $param);
+    $statement->execute();
+    $result = $statement->get_result();
+} else {
+    // Default query to show all books when no search is performed
+    $sql = "SELECT * FROM books ORDER BY id DESC";
+    $result = $conn->query($sql);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,7 +57,9 @@
         </div>
         <div class="books-container">
             <div class="row">
-                <?php if ($result && $result->num_rows > 0): ?>
+                <?php 
+                    
+                if ($result && $result->num_rows > 0): ?>
                     <?php while ($book = $result->fetch_assoc()): ?>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100">

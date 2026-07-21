@@ -1,21 +1,3 @@
-<?php
-require_once 'config/db.php';
-$searchTearm = isset($_GET['search']) ? trim($_GET['search']) : "";
-
-if (!empty($searchTearm)) {
-    $sql = "SELECT * from books where title LIKE ?  OR author LIKE  ? or isbn LIKE ?";
-    $statement = $conn->prepare($sql);
-    $param = "%" . $searchTearm . "%";
-    $statement->bind_param("sss", $param, $param, $param);
-    $statement->execute();
-    $result = $statement->get_result();
-} else {
-    // Default query to show all books when no search is performed
-    $sql = "SELECT * FROM books ORDER BY id DESC";
-    $result = $conn->query($sql);
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +12,7 @@ if (!empty($searchTearm)) {
 <body>
     <header>
         <nav>
-            <h1>Library System</h1> <a href="./login.php">Admin Login</a>
+            <h1>Library System</h1> <a href="">Admin Login</a>
         </nav>
     </header>
     <main>
@@ -43,11 +25,12 @@ if (!empty($searchTearm)) {
                         class="form-control"
                         placeholder="Search by Title, Author, or ISBN..."
                         value="
-                        <?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                        <?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+                        >
                 </div>
                 <div class="col-md-4 d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100">Search</button>
-
+                    
                     <?php if (isset($_GET['search']) && $_GET['search'] !== ''): ?>
                         <a href="index.php" class="btn btn-secondary">Clear</a>
                     <?php endif; ?>

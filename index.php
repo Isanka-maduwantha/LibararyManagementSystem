@@ -30,7 +30,7 @@ if (!empty($searchTearm)) {
 <body>
     <header>
         <nav>
-            <h1>Library System</h1> <a href="">Admin Login</a>
+            <h1>Library System</h1> <a href="./login.php">Admin Login</a>
         </nav>
     </header>
     <main>
